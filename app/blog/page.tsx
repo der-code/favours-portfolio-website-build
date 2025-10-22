@@ -158,7 +158,12 @@ export default function Blog() {
                           </div>
 
                           {/* Excerpt */}
-                          <p className="text-muted-foreground leading-relaxed">{post.excerpt}</p>
+                          <div
+                            className="text-muted-foreground leading-relaxed prose prose-sm max-w-none"
+                            dangerouslySetInnerHTML={{
+                              __html: post.excerpt.replace(/<[^>]*>/g, '').substring(0, 200) + '...'
+                            }}
+                          />
 
                           {/* Tags */}
                           <div className="flex flex-wrap gap-2 pt-2">

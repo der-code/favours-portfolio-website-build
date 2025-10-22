@@ -124,27 +124,34 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
               variants={itemVariants}
               className="prose prose-invert max-w-none space-y-6 text-muted-foreground"
             >
-              {post.content.split("\n\n").map((paragraph, idx) => (
-                <div key={idx}>
-                  {paragraph.startsWith("##") ? (
-                    <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">{paragraph.replace("## ", "")}</h2>
-                  ) : paragraph.startsWith("-") ? (
-                    <ul className="space-y-2 ml-4">
-                      {paragraph
-                        .split("\n")
-                        .filter((line) => line.startsWith("-"))
-                        .map((line, i) => (
-                          <li key={i} className="flex gap-2">
-                            <span className="text-primary">•</span>
-                            <span>{line.replace("- ", "")}</span>
-                          </li>
-                        ))}
-                    </ul>
-                  ) : (
-                    <p className="leading-relaxed">{paragraph}</p>
-                  )}
-                </div>
-              ))}
+              {post.source === "hashnode" ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                  className="prose prose-invert max-w-none"
+                />
+              ) : (
+                post.content.split("\n\n").map((paragraph, idx) => (
+                  <div key={idx}>
+                    {paragraph.startsWith("##") ? (
+                      <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">{paragraph.replace("## ", "")}</h2>
+                    ) : paragraph.startsWith("-") ? (
+                      <ul className="space-y-2 ml-4">
+                        {paragraph
+                          .split("\n")
+                          .filter((line) => line.startsWith("-"))
+                          .map((line, i) => (
+                            <li key={i} className="flex gap-2">
+                              <span className="text-primary">•</span>
+                              <span>{line.replace("- ", "")}</span>
+                            </li>
+                          ))}
+                      </ul>
+                    ) : (
+                      <p className="leading-relaxed">{paragraph}</p>
+                    )}
+                  </div>
+                ))
+              )}
             </motion.div>
 
             {/* Tags */}
