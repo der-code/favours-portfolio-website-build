@@ -7,6 +7,7 @@ import { ArrowLeft, Calendar, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
 import { fetchHashnodePosts, type BlogPost } from "@/lib/hashnode"
+import { ContentRenderer } from "@/components/content-renderer"
 
 export default function BlogPostPage({ params }: { params: { id: string } }) {
   const [post, setPost] = useState<BlogPost | null>(null)
@@ -120,39 +121,11 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
             </motion.div>
 
             {/* Content */}
-            <motion.div
-              variants={itemVariants}
-              className="prose prose-invert max-w-none space-y-6 text-muted-foreground"
-            >
-              {post.source === "hashnode" ? (
-                <div
-                  dangerouslySetInnerHTML={{ __html: post.content }}
-                  className="prose prose-invert max-w-none"
-                />
-              ) : (
-                post.content.split("\n\n").map((paragraph, idx) => (
-                  <div key={idx}>
-                    {paragraph.startsWith("##") ? (
-                      <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">{paragraph.replace("## ", "")}</h2>
-                    ) : paragraph.startsWith("-") ? (
-                      <ul className="space-y-2 ml-4">
-                        {paragraph
-                          .split("\n")
-                          .filter((line) => line.startsWith("-"))
-                          .map((line, i) => (
-                            <li key={i} className="flex gap-2">
-                              <span className="text-primary">•</span>
-                              <span>{line.replace("- ", "")}</span>
-                            </li>
-                          ))}
-                      </ul>
-                    ) : (
-                      <p className="leading-relaxed">{paragraph}</p>
-                    )}
-                  </div>
-                ))
-              )}
-            </motion.div>
+            <ContentRenderer
+              content={post.content}
+              source={post.source}
+              className="prose-headings:text-foreground prose-h1:text-4xl prose-h1:font-bold prose-h1:mb-6 prose-h2:text-3xl prose-h2:font-semibold prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-2xl prose-h3:font-semibold prose-h3:mt-6 prose-h3:mb-3 prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-code:bg-muted prose-code:text-foreground prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-pre:bg-muted prose-pre:text-foreground prose-pre:border prose-pre:border-border prose-pre:rounded-lg prose-pre:p-4 prose-pre:overflow-x-auto prose-blockquote:border-l-primary prose-blockquote:border-l-4 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-muted-foreground prose-ul:list-disc prose-ol:list-decimal prose-li:text-muted-foreground prose-table:border-collapse prose-th:border prose-th:border-border prose-th:bg-muted prose-th:p-2 prose-th:text-left prose-td:border prose-td:border-border prose-td:p-2"
+            />
 
             {/* Tags */}
             <motion.div variants={itemVariants} className="flex flex-wrap gap-2 pt-8 border-t border-border">
