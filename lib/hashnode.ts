@@ -112,15 +112,16 @@ export const FALLBACK_POSTS: BlogPost[] = [
 async function fetchHashnodePosts(): Promise<BlogPost[]> {
   try {
     const query = `
-      query GetUserArticles($first: Int!, $after: String) {
-        user(username: "${HASHNODE_USERNAME}") {
-          publications(first: $first, after: $after) {
+      query GetUserPosts($host: String!) {
+        publication(host: $host) {
+          title
+          posts(first: 10) {
             edges {
               node {
                 id
                 title
                 slug
-                brief
+                subtitle
                 content
                 publishedAt
                 readTimeInMinutes
@@ -145,7 +146,7 @@ async function fetchHashnodePosts(): Promise<BlogPost[]> {
       body: JSON.stringify({
         query,
         variables: {
-          first: 10,
+          host: `${HASHNODE_USERNAME}.hashnode.dev`,
         },
       }),
     })
@@ -162,18 +163,18 @@ async function fetchHashnodePosts(): Promise<BlogPost[]> {
       return FALLBACK_POSTS
     }
 
-    const articles = data.data?.user?.publications?.edges || []
+    const articles = data.data?.publication?.posts?.edges || []
 
-    const posts: BlogPost[] = articles.map((edge: any, index: number) => {
+    const posts: BlogPost[] = articles.map((edge: any) => {
       const article = edge.node
       return {
         id: article.slug,
         title: article.title,
-        excerpt: article.brief,
+        excerpt: article.subtitle || article.title,
         content: article.content,
         category: article.tags[0]?.name || "General",
         date: new Date(article.publishedAt).toISOString().split("T")[0],
-        readTime: article.readTimeInMinutes,
+        readTime: article.readTimeInMinutes || 5,
         tags: article.tags.map((tag: any) => tag.name),
         source: "hashnode" as const,
         slug: article.slug,
