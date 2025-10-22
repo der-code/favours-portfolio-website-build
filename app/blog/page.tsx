@@ -10,6 +10,7 @@ import { useGSAPScrollAnimation } from "@/components/gsap-animations"
 import { useRef } from "react"
 import { FALLBACK_POSTS, type BlogPost } from "@/lib/hashnode"
 import { Loader } from "@/components/aceternity/loader"
+import { ExcerptRenderer } from "@/components/content-renderer"
 
 export default function Blog() {
   const [posts, setPosts] = useState<BlogPost[]>(FALLBACK_POSTS)
@@ -158,11 +159,11 @@ export default function Blog() {
                           </div>
 
                           {/* Excerpt */}
-                          <div
-                            className="text-muted-foreground leading-relaxed prose prose-sm max-w-none"
-                            dangerouslySetInnerHTML={{
-                              __html: post.excerpt.replace(/<[^>]*>/g, '').substring(0, 200) + '...'
-                            }}
+                          <ExcerptRenderer
+                            excerpt={post.excerpt}
+                            source={post.source}
+                            maxLength={200}
+                            className="text-muted-foreground leading-relaxed"
                           />
 
                           {/* Tags */}
