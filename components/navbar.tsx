@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
 import { Moon, Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { motion } from "framer-motion"
 
 export function Navbar() {
   const pathname = usePathname()
@@ -23,6 +22,7 @@ export function Navbar() {
     { href: "/about", label: "About" },
     { href: "/projects", label: "Projects" },
     { href: "/blog", label: "Blog" },
+    { href: "/testimonials", label: "Testimonials" },
     { href: "/contact", label: "Contact" },
   ]
 
@@ -41,12 +41,9 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
-            >
+            <div className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               FMO
-            </motion.div>
+            </div>
           </Link>
 
           {/* Nav Items */}
@@ -62,12 +59,7 @@ export function Navbar() {
                 >
                   {item.label}
                   {isActive && (
-                    <motion.div
-                      layoutId="underline"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                    />
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary" />
                   )}
                 </Link>
               )
