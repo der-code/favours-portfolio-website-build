@@ -9,6 +9,7 @@ import { Spotlight } from "@/components/aceternity/spotlight"
 import { AnimatedGradientText } from "@/components/aceternity/animated-gradient-text"
 import { TextReveal } from "@/components/aceternity/text-reveal"
 import { TestimonialsGrid } from "@/components/aceternity/testimonial-card"
+import { HorizontalScrollSkills } from "@/components/aceternity/horizontal-scroll-skills"
 import { useGSAPScrollAnimation } from "@/components/gsap-animations"
 import { useRef } from "react"
 
@@ -18,6 +19,21 @@ export default function Home() {
     from: { opacity: 0, y: 50, rotateX: -10 },
     to: { opacity: 1, y: 0, rotateX: 0 },
   })
+
+  const skills = [
+    {
+      title: "Frontend",
+      skills: ["React", "TypeScript", "Tailwind", "Framer Motion", "Next.js"],
+    },
+    {
+      title: "Backend",
+      skills: ["NestJS", "PostgreSQL", "MongoDB", "MySQL", "Laravel", "Node.js"],
+    },
+    {
+      title: "DevOps",
+      skills: ["Docker", "CI/CD", "Traefik", "Cloudflare"],
+    },
+  ]
 
   const testimonials = [
     {
@@ -110,58 +126,37 @@ export default function Home() {
             <motion.div
               ref={containerRef}
               variants={itemVariants as Variants}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12"
+              className="space-y-6 pt-12"
             >
-              {[
-                {
-                  title: "Frontend",
-                  skills: ["React", "TypeScript", "Tailwind", "Framer Motion"],
-                },
-                {
-                  title: "Backend",
-                  skills: ["NestJS", "PostgreSQL", "MongoDB"],
-                },
-                {
-                  title: "DevOps",
-                  skills: ["Docker", "CI/CD", "Traefik", "Cloudflare"],
-                },
-              ].map((category, idx) => (
-                <motion.div
-                  key={idx}
-                  className="skill-card p-6 rounded-lg border border-border bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-colors"
-                  whileHover={{ y: -5 }}
-                >
-                  <h3 className="font-semibold text-primary mb-3">{category.title}</h3>
-                  <ul className="space-y-2">
-                    {category.skills.map((skill) => (
-                      <li key={skill} className="text-sm text-muted-foreground">
-                        {skill}
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              ))}
+              <div className="text-center space-y-2">
+                <h2 className="text-2xl font-bold">Technical Skills</h2>
+                <p className="text-muted-foreground">Technologies and tools I work with</p>
+              </div>
+              <HorizontalScrollSkills skills={skills} />
             </motion.div>
-
-            {/* Testimonials Section */}
-            <div className="space-y-8">
-              <div className="text-center space-y-4">
-                <h2 className="text-3xl font-bold">What Clients Say</h2>
-                <p className="text-muted-foreground max-w-2xl mx-auto">
-                  Don't just take my word for it. Here's what clients and colleagues say about working with me.
-                </p>
-              </div>
-              <TestimonialsGrid testimonials={testimonials} />
-              <div className="text-center">
-                <Link href="/testimonials">
-                  <Button variant="outline" className="group">
-                    View All Testimonials
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
           </motion.div>
+
+          {/* Testimonials Section - Outside motion container */}
+          <div className="space-y-8 mt-20">
+            <div className="text-center space-y-4">
+              <h2 className="text-3xl font-bold">What Clients Say</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Don't just take my word for it. Here's what clients and colleagues say about working with me.
+              </p>
+            </div>
+
+
+
+            <TestimonialsGrid testimonials={testimonials} />
+            <div className="text-center">
+              <Link href="/testimonials">
+                <Button variant="outline" className="group">
+                  View All Testimonials
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
       </main>
     </>
