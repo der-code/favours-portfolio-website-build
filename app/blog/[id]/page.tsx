@@ -5,94 +5,38 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import { ArrowLeft, Calendar, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react"
+import { fetchHashnodePosts, type BlogPostType } from "@/lib/hashnode"
 
-const blogPosts: Record<
-  string,
-  {
-    title: string
-    category: string
-    date: string
-    readTime: number
-    tags: string[]
-    content: string
-    fullContent: string
+export default function BlogPostPage({ params }: { params: { id: string } }) {
+  const [post, setPost] = useState<BlogPostType | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadPost = async () => {
+      setLoading(true)
+      const allPosts = await fetchHashnodePosts()
+      const foundPost = allPosts.find((p) => p.id === params.id || p.slug === params.id)
+      setPost(foundPost || null)
+      setLoading(false)
+    }
+    loadPost()
+  }, [params.id])
+
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">
+            <div className="text-center">
+              <p className="text-muted-foreground">Loading post...</p>
+            </div>
+          </div>
+        </main>
+      </>
+    )
   }
-> = {
-  "1": {
-    title: "Building Multi-tenant Systems with Traefik and Docker",
-    category: "DevOps",
-    date: "2024-10-15",
-    readTime: 12,
-    tags: ["Docker", "Traefik", "DevOps", "Architecture"],
-    content:
-      "A deep dive into architecting scalable multi-tenant applications using Traefik as a reverse proxy and Docker for containerization.",
-    fullContent: `
-In this comprehensive guide, we explore the architecture and implementation of multi-tenant systems. We'll cover how to use Traefik for intelligent routing, Docker for containerization, and best practices for data isolation and security.
-
-## Understanding Multi-tenancy
-
-Multi-tenancy is an architecture where a single instance of an application serves multiple customers (tenants). Each tenant's data is isolated and invisible to other tenants.
-
-## Traefik as a Reverse Proxy
-
-Traefik is a modern reverse proxy that automatically discovers services and configures itself. It's perfect for multi-tenant architectures because it can route requests based on hostnames, paths, or other criteria.
-
-## Docker Containerization
-
-Docker allows us to package our application and its dependencies into containers. This makes it easy to deploy multiple instances of our application.
-
-## Best Practices
-
-1. **Data Isolation**: Ensure each tenant's data is completely isolated
-2. **Security**: Implement proper authentication and authorization
-3. **Scalability**: Design your system to scale horizontally
-4. **Monitoring**: Implement comprehensive logging and monitoring
-
-## Conclusion
-
-Building multi-tenant systems requires careful planning and architecture. With Traefik and Docker, you can create scalable, secure, and maintainable systems.
-    `,
-  },
-  "2": {
-    title: "React Performance Optimization: From 3s to 0.8s Load Time",
-    category: "Frontend",
-    date: "2024-10-08",
-    readTime: 15,
-    tags: ["React", "Performance", "Optimization", "Frontend"],
-    content:
-      "Practical techniques for optimizing React applications, including code splitting, lazy loading, and advanced caching strategies.",
-    fullContent: `
-Learn how to identify performance bottlenecks in React applications and implement solutions that dramatically improve load times.
-
-## Performance Metrics
-
-Understanding key performance metrics is crucial:
-- First Contentful Paint (FCP)
-- Largest Contentful Paint (LCP)
-- Cumulative Layout Shift (CLS)
-- Time to Interactive (TTI)
-
-## Code Splitting
-
-Code splitting allows you to split your bundle into smaller chunks that are loaded on demand.
-
-## Lazy Loading
-
-Lazy loading components and images can significantly reduce initial load time.
-
-## Caching Strategies
-
-Implementing proper caching strategies can dramatically improve performance for returning users.
-
-## Results
-
-By implementing these techniques, we achieved a 73% reduction in load time, from 3 seconds to 0.8 seconds.
-    `,
-  },
-}
-
-export default function BlogPost({ params }: { params: { id: string } }) {
-  const post = blogPosts[params.id]
 
   if (!post) {
     return (
@@ -154,6 +98,11 @@ export default function BlogPost({ params }: { params: { id: string } }) {
                 <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary border border-primary/20">
                   {post.category}
                 </span>
+                {post.source === "hashnode" && (
+                  <span className="px-2 py-1 text-xs rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20">
+                    Hashnode
+                  </span>
+                )}
                 <span className="text-sm text-muted-foreground flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
                   {new Date(post.date).toLocaleDateString("en-US", {
@@ -175,7 +124,7 @@ export default function BlogPost({ params }: { params: { id: string } }) {
               variants={itemVariants}
               className="prose prose-invert max-w-none space-y-6 text-muted-foreground"
             >
-              {post.fullContent.split("\n\n").map((paragraph, idx) => (
+              {post.content.split("\n\n").map((paragraph, idx) => (
                 <div key={idx}>
                   {paragraph.startsWith("##") ? (
                     <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">{paragraph.replace("## ", "")}</h2>
