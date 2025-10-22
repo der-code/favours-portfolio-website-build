@@ -5,7 +5,7 @@ import { motion, Variants } from "framer-motion"
 import { Code2, Zap, Palette } from "lucide-react"
 import { CardHoverEffect } from "@/components/aceternity/card-hover-effect"
 import { Timeline } from "@/components/aceternity/timeline"
-import { ProfilePhoto, PhotoGallery } from "@/components/aceternity/photo-gallery"
+import { ProfilePhoto } from "@/components/aceternity/photo-gallery"
 import { useGSAPScrollAnimation } from "@/components/gsap-animations"
 import { useRef } from "react"
 
@@ -112,24 +112,6 @@ export default function About() {
     }
   ]
 
-  const personalPhotos = [
-    {
-      src: "/images/photos/bg-photo1.jpeg",
-      alt: "Personal photo 1",
-      caption: "Exploring new technologies"
-    },
-    {
-      src: "/images/photos/bg-photo2.jpg",
-      alt: "Personal photo 2",
-      caption: "Team collaboration"
-    },
-    {
-      src: "/images/photos/bg-photo3.PNG",
-      alt: "Personal photo 3",
-      caption: "Creative projects"
-    },
-  ]
-
   return (
     <>
       <Navbar />
@@ -183,9 +165,6 @@ export default function About() {
                   className="w-48 h-48 md:w-64 md:h-64"
                 />
               </div>
-
-              {/* Photo Gallery */}
-              <PhotoGallery photos={personalPhotos} />
             </motion.div>
 
             {/* Skills Grid */}

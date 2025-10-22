@@ -15,9 +15,10 @@ export const HorizontalScrollSkills = ({
     className?: string
 }) => {
     return (
-        <div className={cn("w-full", className)}>
-            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-                {skills.map((category, categoryIndex) => (
+        <div className={cn("w-full overflow-hidden", className)}>
+            <div className="flex gap-4 animate-scroll">
+                {/* Duplicate the content for seamless loop */}
+                {[...skills, ...skills].map((category, categoryIndex) => (
                     <div key={categoryIndex} className="flex-shrink-0">
                         <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-4 min-w-[200px]">
                             <h3 className="font-semibold text-primary mb-3 text-sm">{category.title}</h3>
