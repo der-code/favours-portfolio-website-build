@@ -114,18 +114,18 @@ export default function About() {
 
   const personalPhotos = [
     {
-      src: "/images/photos/hobby1.jpg",
-      alt: "Hobby photo 1",
+      src: "/images/photos/bg-photo1.jpeg",
+      alt: "Personal photo 1",
       caption: "Exploring new technologies"
     },
     {
-      src: "/images/photos/hobby2.jpg",
-      alt: "Hobby photo 2",
+      src: "/images/photos/bg-photo2.jpg",
+      alt: "Personal photo 2",
       caption: "Team collaboration"
     },
     {
-      src: "/images/photos/hobby3.jpg",
-      alt: "Hobby photo 3",
+      src: "/images/photos/bg-photo3.PNG",
+      alt: "Personal photo 3",
       caption: "Creative projects"
     },
   ]
@@ -178,7 +178,7 @@ export default function About() {
               {/* Profile Photo */}
               <div className="flex justify-center">
                 <ProfilePhoto
-                  src="/images/photos/profile.jpg"
+                  src="/images/photos/bg-photo1.jpeg"
                   alt="Favour's profile photo"
                   className="w-48 h-48 md:w-64 md:h-64"
                 />

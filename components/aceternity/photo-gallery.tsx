@@ -3,7 +3,6 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
-import Image from "next/image"
 
 export const PhotoGallery = ({
     photos,
@@ -28,13 +27,10 @@ export const PhotoGallery = ({
                     transition={{ delay: index * 0.1 }}
                     viewport={{ once: true }}
                 >
-                    <div className="aspect-square relative">
-                        <Image
-                            src={photo.src}
-                            alt={photo.alt}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
+                    <div
+                        className="aspect-square relative bg-cover bg-center bg-no-repeat group-hover:scale-105 transition-transform duration-300"
+                        style={{ backgroundImage: `url(${photo.src})` }}
+                    >
                         {photo.caption && (
                             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                                 <p className="text-white p-4 text-sm">{photo.caption}</p>
@@ -58,20 +54,13 @@ export const ProfilePhoto = ({
 }) => {
     return (
         <motion.div
-            className={cn("relative overflow-hidden rounded-full border-4 border-primary/20", className)}
+            className={cn("relative overflow-hidden rounded-full border-4 border-primary/20 bg-cover bg-center bg-no-repeat", className)}
+            style={{ backgroundImage: `url(${src})` }}
             whileHover={{ scale: 1.05 }}
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-        >
-            <Image
-                src={src}
-                alt={alt}
-                width={300}
-                height={300}
-                className="object-cover"
-            />
-        </motion.div>
+        />
     )
 }
