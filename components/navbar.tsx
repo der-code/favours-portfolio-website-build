@@ -52,7 +52,7 @@ export function Navbar() {
           {/* Nav Items */}
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => {
-              const isActive = pathname === item.href
+              const isActive = mounted && pathname === item.href
               return (
                 <Link
                   key={item.href}
@@ -75,16 +75,18 @@ export function Navbar() {
           </div>
 
           {/* Theme Toggle */}
-          {mounted && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="rounded-full"
-            >
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="rounded-full"
+          >
+            {mounted ? (
+              theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />
+            ) : (
+              <div className="h-5 w-5" />
+            )}
+          </Button>
         </div>
       </div>
     </nav>

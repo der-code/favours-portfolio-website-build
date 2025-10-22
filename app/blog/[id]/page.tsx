@@ -6,10 +6,10 @@ import Link from "next/link"
 import { ArrowLeft, Calendar, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
-import { fetchHashnodePosts, type BlogPostType } from "@/lib/hashnode"
+import { fetchHashnodePosts, type BlogPost } from "@/lib/hashnode"
 
 export default function BlogPostPage({ params }: { params: { id: string } }) {
-  const [post, setPost] = useState<BlogPostType | null>(null)
+  const [post, setPost] = useState<BlogPost | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

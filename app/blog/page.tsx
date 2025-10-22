@@ -8,7 +8,7 @@ import { useState, useEffect } from "react"
 import { RevealOnScroll } from "@/components/framer-motion-effects"
 import { useGSAPScrollAnimation } from "@/components/gsap-animations"
 import { useRef } from "react"
-import { fetchHashnodePosts, FALLBACK_POSTS, type BlogPost } from "@/lib/hashnode"
+import { FALLBACK_POSTS, type BlogPost } from "@/lib/hashnode"
 
 export default function Blog() {
   const [posts, setPosts] = useState<BlogPost[]>(FALLBACK_POSTS)
@@ -22,10 +22,28 @@ export default function Blog() {
 
   useEffect(() => {
     const loadPosts = async () => {
-      setLoading(true)
-      const fetchedPosts = await fetchHashnodePosts()
-      setPosts(fetchedPosts)
-      setLoading(false)
+      try {
+        setLoading(true)
+
+        const response = await fetch('/api/hashnode-posts')
+
+        if (!response.ok) {
+          throw new Error(`API request failed: ${response.status}`)
+        }
+
+        const data = await response.json()
+
+        if (data.success && data.posts) {
+          setPosts(data.posts)
+        } else {
+          setPosts(FALLBACK_POSTS)
+        }
+
+        setLoading(false)
+      } catch (error) {
+        setPosts(FALLBACK_POSTS)
+        setLoading(false)
+      }
     }
     loadPosts()
   }, [])
@@ -73,11 +91,10 @@ export default function Blog() {
                 onClick={() => setSelectedCategory(null)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  selectedCategory === null
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-card border border-border hover:border-primary/50"
-                }`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === null
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-card border border-border hover:border-primary/50"
+                  }`}
               >
                 All Posts
               </motion.button>
@@ -87,11 +104,10 @@ export default function Blog() {
                   onClick={() => setSelectedCategory(cat)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedCategory === cat
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-card border border-border hover:border-primary/50"
-                  }`}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === cat
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-card border border-border hover:border-primary/50"
+                    }`}
                 >
                   {cat}
                 </motion.button>
@@ -107,23 +123,17 @@ export default function Blog() {
 
             {/* Blog Posts */}
             {!loading && (
-              <motion.div ref={containerRef} variants={containerVariants} className="space-y-6">
+              <div className="space-y-6">
                 {filteredPosts.map((post) => (
-                  <RevealOnScroll key={`${post.source}-${post.id}`}>
-                    <motion.article
-                      className="blog-post group p-6 rounded-lg border border-border bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-all cursor-pointer"
-                      whileHover={{ x: 8 }}
-                    >
+                  <div key={`${post.source}-${post.id}`}>
+                    <article className="blog-post group p-6 rounded-lg border border-border bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-all cursor-pointer">
                       <Link href={`/blog/${post.id}`} className="block space-y-4">
                         {/* Header */}
                         <div className="space-y-2">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <motion.span
-                              whileHover={{ scale: 1.1 }}
-                              className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary border border-primary/20"
-                            >
+                            <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary border border-primary/20">
                               {post.category}
-                            </motion.span>
+                            </span>
                             {post.source === "hashnode" && (
                               <span className="px-2 py-1 text-xs rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20">
                                 Hashnode
@@ -165,10 +175,10 @@ export default function Blog() {
                           <ArrowRight className="h-4 w-4" />
                         </div>
                       </Link>
-                    </motion.article>
-                  </RevealOnScroll>
+                    </article>
+                  </div>
                 ))}
-              </motion.div>
+              </div>
             )}
 
             {/* Empty State */}

@@ -1,5 +1,25 @@
+// Hashnode API Integration
+// To use your own Hashnode blog, create a .env.local file with:
+// NEXT_PUBLIC_HASHNODE_USERNAME=your-actual-hashnode-username
+// Make sure your Hashnode blog is public and accessible
+
 const HASHNODE_API_URL = "https://gql.hashnode.com"
-const HASHNODE_USERNAME = process.env.NEXT_PUBLIC_HASHNODE_USERNAME || "favour-max-oti"
+
+// Get username dynamically at runtime
+const getHashnodeUsername = () => {
+  console.log('[v0] Getting username at runtime...')
+  console.log('[v0] process.env.NEXT_PUBLIC_HASHNODE_USERNAME:', process.env.NEXT_PUBLIC_HASHNODE_USERNAME)
+  console.log('[v0] typeof process.env.NEXT_PUBLIC_HASHNODE_USERNAME:', typeof process.env.NEXT_PUBLIC_HASHNODE_USERNAME)
+
+  // Try environment variable first
+  if (process.env.NEXT_PUBLIC_HASHNODE_USERNAME) {
+    console.log('[v0] Using environment variable:', process.env.NEXT_PUBLIC_HASHNODE_USERNAME)
+    return process.env.NEXT_PUBLIC_HASHNODE_USERNAME
+  }
+  // Fallback to hardcoded value
+  console.log('[v0] Using fallback username: kells')
+  return "kells"
+}
 
 export interface HashnodePost {
   id: string
@@ -111,67 +131,115 @@ export const FALLBACK_POSTS: BlogPost[] = [
 
 async function fetchHashnodePosts(): Promise<BlogPost[]> {
   try {
-    const query = `
-      query GetUserPosts($host: String!) {
-        publication(host: $host) {
-          title
-          posts(first: 10) {
-            edges {
-              node {
-                id
-                title
-                slug
-                subtitle
-                content
-                publishedAt
-                readTimeInMinutes
-                tags {
-                  name
-                }
-                coverImage {
-                  url
-                }
+    // Get username at runtime to ensure we get the latest environment variable
+    const HASHNODE_USERNAME = getHashnodeUsername()
+
+    console.log(`[v0] ===== STARTING HASHNODE FETCH =====`)
+    console.log(`[v0] Username: ${HASHNODE_USERNAME}`)
+    console.log(`[v0] Environment: ${typeof window !== 'undefined' ? 'browser' : 'server'}`)
+    console.log(`[v0] API URL: ${HASHNODE_API_URL}`)
+
+    const query = `query GetUserPosts($host: String!) {
+      publication(host: $host) {
+        title
+        posts(first: 10) {
+          edges {
+            node {
+              id
+              title
+              slug
+              subtitle
+              brief
+              content {
+                markdown
+                html
+              }
+              publishedAt
+              readTimeInMinutes
+              tags {
+                name
+              }
+              coverImage {
+                url
               }
             }
           }
         }
       }
-    `
+    }`
 
-    const response = await fetch(HASHNODE_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query,
-        variables: {
-          host: `${HASHNODE_USERNAME}.hashnode.dev`,
+    // Ensure HASHNODE_USERNAME is defined
+    if (!HASHNODE_USERNAME) {
+      console.error('[v0] HASHNODE_USERNAME is undefined or null')
+      console.error('[v0] process.env.NEXT_PUBLIC_HASHNODE_USERNAME:', process.env.NEXT_PUBLIC_HASHNODE_USERNAME)
+      return FALLBACK_POSTS
+    }
+
+    const variables = {
+      host: `${HASHNODE_USERNAME}.hashnode.dev`,
+    }
+
+    console.log(`[v0] Making request to Hashnode API with host: ${variables.host}`)
+
+    const requestBody = {
+      query,
+      variables,
+    }
+
+    console.log(`[v0] Query being sent:`, query)
+    console.log(`[v0] Request body:`, JSON.stringify(requestBody, null, 2))
+
+    let response: Response
+    try {
+      response = await fetch(HASHNODE_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "Portfolio-Blog/1.0",
         },
-      }),
-    })
+        body: JSON.stringify(requestBody),
+      })
+    } catch (fetchError) {
+      console.error("[v0] Fetch error:", fetchError)
+      throw new Error(`Failed to fetch from Hashnode API: ${fetchError}`)
+    }
+
+    console.log(`[v0] Hashnode API response status: ${response.status}`)
 
     if (!response.ok) {
-      console.error("[v0] Hashnode API error:", response.statusText)
+      const errorText = await response.text()
+      console.error(`[v0] Hashnode API error (${response.status}):`, errorText)
       return FALLBACK_POSTS
     }
 
     const data = await response.json()
+    console.log(`[v0] Hashnode API response data:`, data)
 
     if (data.errors) {
-      console.error("[v0] Hashnode GraphQL error:", data.errors)
+      console.error("[v0] Hashnode GraphQL errors:", data.errors)
       return FALLBACK_POSTS
     }
 
-    const articles = data.data?.publication?.posts?.edges || []
+    if (!data.data?.publication) {
+      console.error(`[v0] No publication found for host: ${variables.host}`)
+      console.error(`[v0] This could mean:`)
+      console.error(`[v0] 1. The username "${HASHNODE_USERNAME}" doesn't exist on Hashnode`)
+      console.error(`[v0] 2. The publication is private`)
+      console.error(`[v0] 3. The username is incorrect`)
+      console.error(`[v0] Using fallback posts instead`)
+      return FALLBACK_POSTS
+    }
+
+    const articles = data.data.publication.posts?.edges || []
+    console.log(`[v0] Found ${articles.length} articles from Hashnode`)
 
     const posts: BlogPost[] = articles.map((edge: any) => {
       const article = edge.node
       return {
         id: article.slug,
         title: article.title,
-        excerpt: article.subtitle || article.title,
-        content: article.content,
+        excerpt: article.brief || article.subtitle || article.title,
+        content: article.content?.markdown || article.content?.html || "Content not available",
         category: article.tags[0]?.name || "General",
         date: new Date(article.publishedAt).toISOString().split("T")[0],
         readTime: article.readTimeInMinutes || 5,
@@ -183,9 +251,16 @@ async function fetchHashnodePosts(): Promise<BlogPost[]> {
     })
 
     // Combine Hashnode posts with fallback posts
-    return [...posts, ...FALLBACK_POSTS]
+    const allPosts = [...posts, ...FALLBACK_POSTS]
+    console.log(`[v0] Returning ${allPosts.length} total posts (${posts.length} from Hashnode, ${FALLBACK_POSTS.length} fallback)`)
+    return allPosts
   } catch (error) {
-    console.error("[v0] Error fetching Hashnode posts:", error)
+    console.error("[v0] ===== HASHNODE FETCH ERROR =====")
+    console.error("[v0] Error type:", typeof error)
+    console.error("[v0] Error message:", error instanceof Error ? error.message : String(error))
+    console.error("[v0] Error stack:", error instanceof Error ? error.stack : 'No stack trace')
+    console.error("[v0] Full error object:", error)
+    console.error("[v0] Returning fallback posts due to error")
     return FALLBACK_POSTS
   }
 }
