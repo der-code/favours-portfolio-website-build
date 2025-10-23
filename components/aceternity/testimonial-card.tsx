@@ -3,6 +3,7 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { Avatar } from "@/components/ui/avatar"
 
 export const TestimonialCard = ({
     quote,
@@ -39,13 +40,11 @@ export const TestimonialCard = ({
 
                 {/* Author */}
                 <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-white font-semibold">
-                        {name.charAt(0)}
-                    </div>
+                    <Avatar name={name} size="md" />
                     <div>
                         <p className="font-semibold text-foreground">{name}</p>
                         <p className="text-sm text-muted-foreground">
-                            {title} at {company}
+                            {title} @ {company}
                         </p>
                     </div>
                 </div>

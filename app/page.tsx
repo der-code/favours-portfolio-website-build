@@ -8,10 +8,11 @@ import { Button } from "@/components/ui/button"
 import { Spotlight } from "@/components/aceternity/spotlight"
 import { AnimatedGradientText } from "@/components/aceternity/animated-gradient-text"
 import { TextReveal } from "@/components/aceternity/text-reveal"
-import { TestimonialsGrid } from "@/components/aceternity/testimonial-card"
+import { InfiniteMovingCards } from "@/components/aceternity/infinite-moving-cards"
 import { HorizontalScrollSkills } from "@/components/aceternity/horizontal-scroll-skills"
 import { useGSAPScrollAnimation } from "@/components/gsap-animations"
 import { useRef } from "react"
+import { testimonials } from "@/lib/data"
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -35,26 +36,6 @@ export default function Home() {
     },
   ]
 
-  const testimonials = [
-    {
-      quote: "Favour delivered an exceptional web application that exceeded our expectations. His attention to detail and technical expertise made the entire development process smooth and efficient.",
-      name: "Sarah Johnson",
-      title: "Product Manager",
-      company: "TechCorp"
-    },
-    {
-      quote: "Working with Favour was a game-changer for our project. His React and NestJS skills are outstanding, and he consistently delivered high-quality solutions on time.",
-      name: "Michael Chen",
-      title: "CTO",
-      company: "StartupXYZ"
-    },
-    {
-      quote: "Favour's ability to create beautiful, performant user interfaces is remarkable. He transformed our complex requirements into an intuitive and delightful user experience.",
-      name: "Emily Rodriguez",
-      title: "UX Director",
-      company: "DesignStudio"
-    }
-  ]
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -147,8 +128,14 @@ export default function Home() {
 
 
 
-            <TestimonialsGrid testimonials={testimonials} />
-            <div className="text-center">
+            <InfiniteMovingCards
+              testimonials={testimonials}
+              direction="left"
+              speed="slow"
+              pauseOnHover={true}
+              className="py-8"
+            />
+            <div className="text-center mt-8">
               <Link href="/testimonials">
                 <Button variant="outline" className="group">
                   View All Testimonials

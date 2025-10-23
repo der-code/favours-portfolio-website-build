@@ -1,39 +1,61 @@
 "use client"
 
 import { Navbar } from "@/components/navbar"
-import { motion } from "framer-motion"
 import Link from "next/link"
 import { ArrowLeft, Calendar, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react"
-import { fetchHashnodePosts, type BlogPost } from "@/lib/hashnode"
+import { type BlogPost } from "@/lib/hashnode"
 import { ContentRenderer } from "@/components/content-renderer"
+import { useEffect, useState } from "react"
+import { Loader } from "@/components/aceternity/loader"
 
-export default function BlogPostPage({ params }: { params: { id: string } }) {
+export default function BlogPostPage({ params }: { params: Promise<{ id: string }> }) {
   const [post, setPost] = useState<BlogPost | null>(null)
   const [loading, setLoading] = useState(true)
+  const [postId, setPostId] = useState<string | null>(null)
 
   useEffect(() => {
+    const loadParams = async () => {
+      const resolvedParams = await params
+      setPostId(resolvedParams.id)
+    }
+    loadParams()
+  }, [params])
+
+  useEffect(() => {
+    if (!postId) return
+
     const loadPost = async () => {
       setLoading(true)
-      const allPosts = await fetchHashnodePosts()
-      const foundPost = allPosts.find((p) => p.id === params.id || p.slug === params.id)
-      setPost(foundPost || null)
-      setLoading(false)
+      try {
+        const response = await fetch('/api/hashnode-posts')
+        if (!response.ok) {
+          throw new Error(`API request failed: ${response.status}`)
+        }
+        const data = await response.json()
+
+        if (data.success && data.posts) {
+          const foundPost = data.posts.find((p: BlogPost) => p.id === postId || p.slug === postId)
+          setPost(foundPost || null)
+        } else {
+          setPost(null)
+        }
+      } catch (error) {
+        console.error('Error loading post:', error)
+        setPost(null)
+      } finally {
+        setLoading(false)
+      }
     }
     loadPost()
-  }, [params.id])
+  }, [postId])
 
   if (loading) {
     return (
       <>
         <Navbar />
-        <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">
-            <div className="text-center">
-              <p className="text-muted-foreground">Loading post...</p>
-            </div>
-          </div>
+        <main className="min-h-screen bg-gradient-to-br from-background via-background to-card flex items-center justify-center">
+          <Loader />
         </main>
       </>
     )
@@ -43,58 +65,50 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
     return (
       <>
         <Navbar />
-        <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold mb-4">Post not found</h1>
-              <Link href="/blog">
-                <Button>Back to Blog</Button>
-              </Link>
-            </div>
+        <main className="min-h-screen bg-gradient-to-br from-background via-background to-card flex items-center justify-center">
+          <div className="text-center space-y-4">
+            <h1 className="text-4xl font-bold">Post Not Found</h1>
+            <p className="text-lg text-muted-foreground">
+              The article you are looking for does not exist.
+            </p>
+            <Link href="/blog">
+              <Button variant="outline" className="gap-2">
+                <ArrowLeft className="h-4 w-4" />
+                Back to Blog
+              </Button>
+            </Link>
           </div>
         </main>
       </>
     )
   }
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
-    },
-  }
 
   return (
     <>
       <Navbar />
       <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-20">
-          <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-8">
+          <div className="space-y-8">
             {/* Back Button */}
-            <motion.div variants={itemVariants}>
+            <div>
               <Link href="/blog">
                 <Button variant="ghost" className="gap-2">
                   <ArrowLeft className="h-4 w-4" />
                   Back to Blog
                 </Button>
               </Link>
-            </motion.div>
+            </div>
 
             {/* Header */}
-            <motion.div variants={itemVariants} className="space-y-4">
+            <div className="space-y-4">
+              {post.coverImage && (
+                <img
+                  src={post.coverImage}
+                  alt={post.title}
+                  className="w-full h-64 object-cover rounded-lg mb-4"
+                />
+              )}
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary border border-primary/20">
                   {post.category}
@@ -118,7 +132,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
                 </span>
               </div>
               <h1 className="text-4xl md:text-5xl font-bold">{post.title}</h1>
-            </motion.div>
+            </div>
 
             {/* Content */}
             <ContentRenderer
@@ -128,17 +142,17 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
             />
 
             {/* Tags */}
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-2 pt-8 border-t border-border">
+            <div className="flex flex-wrap gap-2 pt-8 border-t border-border">
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-3 py-1 text-sm rounded-full bg-primary/10 text-primary border border-primary/20"
+                  className="px-3 py-1 text-sm rounded-full bg-accent/10 text-accent border border-accent/20"
                 >
-                  {tag}
+                  #{tag}
                 </span>
               ))}
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </main>
     </>

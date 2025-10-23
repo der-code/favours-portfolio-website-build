@@ -1,8 +1,8 @@
 "use client"
 
 import { Navbar } from "@/components/navbar"
-import { TestimonialsGrid } from "@/components/aceternity/testimonial-card"
-import { motion } from "framer-motion"
+import { AppleCardsCarousel } from "@/components/aceternity/apple-cards-carousel"
+import { motion, Variants } from "framer-motion"
 import { Loader } from "@/components/aceternity/loader"
 import { useState, useEffect } from "react"
 
@@ -86,20 +86,24 @@ export default function Testimonials() {
                     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20">
                         <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-12">
                             {/* Header */}
-                            <motion.div variants={itemVariants} className="text-center space-y-4">
+                            <motion.div variants={itemVariants as Variants} className="text-center space-y-4">
                                 <h1 className="text-4xl md:text-5xl font-bold">Testimonials</h1>
                                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                                     What clients and colleagues say about working with me. These testimonials reflect the impact and value I bring to every project.
                                 </p>
                             </motion.div>
 
-                            {/* Testimonials Grid */}
-                            <motion.div variants={itemVariants}>
-                                <TestimonialsGrid testimonials={testimonials} />
+                            {/* Apple Cards Carousel */}
+                            <motion.div variants={itemVariants as Variants}>
+                                <AppleCardsCarousel
+                                    testimonials={testimonials}
+                                    autoPlay={true}
+                                    autoPlayInterval={6000}
+                                />
                             </motion.div>
 
                             {/* Call to Action */}
-                            <motion.div variants={itemVariants} className="text-center space-y-4">
+                            <motion.div variants={itemVariants as Variants} className="text-center space-y-4">
                                 <h2 className="text-2xl font-semibold">Ready to work together?</h2>
                                 <p className="text-muted-foreground">
                                     Let's discuss how I can help bring your next project to life.
