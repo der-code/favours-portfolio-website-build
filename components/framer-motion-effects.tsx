@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef } from "react"
 
 export const ParallaxSection = ({
@@ -35,16 +35,30 @@ export const RevealOnScroll = ({
   delay?: number
 }) => {
   const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 0.9", "start 0.25"],
+  const isInView = useInView(ref, {
+    once: true,
+    margin: "-100px 0px"
   })
 
-  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1])
-  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1])
-
   return (
-    <motion.div ref={ref} style={{ opacity, scale }}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      animate={isInView ? {
+        opacity: 1,
+        y: 0,
+        scale: 1
+      } : {
+        opacity: 0,
+        y: 50,
+        scale: 0.9
+      }}
+      transition={{
+        duration: 0.6,
+        delay: delay,
+        ease: "easeOut"
+      }}
+    >
       {children}
     </motion.div>
   )

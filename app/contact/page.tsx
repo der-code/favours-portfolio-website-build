@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { Navbar } from "@/components/navbar"
-import { motion } from "framer-motion"
+import { motion, Variants } from "framer-motion"
 import { Mail, Linkedin, Github, Twitter, MapPin, Phone } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -18,20 +18,53 @@ export default function Contact() {
     message: "",
   })
   const [submitted, setSubmitted] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted:", formData)
-    setSubmitted(true)
-    setTimeout(() => {
+
+    // Reset states
+    setError("")
+    setSuccess(false)
+    setIsLoading(true)
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Failed to send message')
+      }
+
+      // Success
+      setSuccess(true)
       setFormData({ name: "", email: "", subject: "", message: "" })
-      setSubmitted(false)
-    }, 3000)
+
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setSuccess(false)
+      }, 5000)
+
+    } catch (err) {
+      console.error('Email sending failed:', err)
+      setError(err instanceof Error ? err.message : "Failed to send message. Please try again or contact me directly.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const containerVariants = {
@@ -58,25 +91,25 @@ export default function Contact() {
     {
       name: "Email",
       icon: Mail,
-      href: "mailto:favour@example.com",
-      label: "favour@example.com",
+      href: "mailto:maxotif@gmail.com",
+      label: "maxoti@gmail.com",
     },
     {
       name: "LinkedIn",
       icon: Linkedin,
-      href: "https://linkedin.com",
+      href: "https://linkedin.com/in/max-otifavour",
       label: "LinkedIn Profile",
     },
     {
       name: "GitHub",
       icon: Github,
-      href: "https://github.com",
+      href: "https://github.com/kellslte",
       label: "GitHub Profile",
     },
     {
       name: "Twitter",
       icon: Twitter,
-      href: "https://twitter.com",
+      href: "https://twitter.com/thekellslte",
       label: "Twitter Profile",
     },
   ]
@@ -84,11 +117,11 @@ export default function Contact() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
+      <main className="min-h-screen bg-gradient-to-br from-background via-background to-card pb-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20">
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-12">
             {/* Header */}
-            <motion.div variants={itemVariants} className="space-y-4 max-w-2xl">
+            <motion.div variants={itemVariants as Variants} className="space-y-4 max-w-2xl">
               <h1 className="text-4xl md:text-5xl font-bold">Get in Touch</h1>
               <p className="text-lg text-muted-foreground">
                 Have a project in mind or want to collaborate? I'd love to hear from you. Reach out and let's create
@@ -99,7 +132,7 @@ export default function Contact() {
             {/* Content Grid */}
             <motion.div variants={containerVariants} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Contact Form */}
-              <motion.div variants={itemVariants} className="space-y-6">
+              <motion.div variants={itemVariants as Variants} className="space-y-6">
                 <h2 className="text-2xl font-semibold">Send me a message</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
@@ -166,20 +199,50 @@ export default function Contact() {
                       placeholder="Tell me about your project..."
                     />
                   </div>
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  {/* Success Message */}
+                  {success && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400"
+                    >
+                      <p className="font-medium">✅ Message sent successfully!</p>
+                      <p className="text-sm">I'll get back to you within 24-48 hours.</p>
+                    </motion.div>
+                  )}
+
+                  {/* Error Message */}
+                  {error && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400"
+                    >
+                      <p className="font-medium">❌ {error}</p>
+                    </motion.div>
+                  )}
+
+                  <motion.div whileHover={{ scale: isLoading ? 1 : 1.02 }} whileTap={{ scale: isLoading ? 1 : 0.98 }}>
                     <Button
                       type="submit"
                       className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90"
-                      disabled={submitted}
+                      disabled={isLoading}
                     >
-                      {submitted ? "Message Sent!" : "Send Message"}
+                      {isLoading ? (
+                        <div className="flex items-center gap-2">
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          Sending...
+                        </div>
+                      ) : (
+                        "Send Message"
+                      )}
                     </Button>
                   </motion.div>
                 </form>
               </motion.div>
 
               {/* Contact Info */}
-              <motion.div variants={itemVariants} className="space-y-8">
+              <motion.div variants={itemVariants as Variants} className="space-y-8">
                 <div>
                   <h2 className="text-2xl font-semibold mb-6">Contact Information</h2>
                   <div className="space-y-4">
@@ -187,20 +250,20 @@ export default function Contact() {
                       {
                         icon: Mail,
                         title: "Email",
-                        content: "favour@example.com",
+                        content: "maxotif@gmail.com",
                       },
                       {
                         icon: MapPin,
                         title: "Location",
-                        content: "Lagos, Nigeria",
+                        content: "Enugu, Nigeria",
                       },
                       {
                         icon: Phone,
                         title: "Phone",
-                        content: "+234 (0) 123 456 7890",
+                        content: "+234 (0) 810 468 4978",
                       },
                     ].map((item, idx) => (
-                      <RevealOnScroll key={idx}>
+                      <RevealOnScroll key={idx} delay={idx * 0.1}>
                         <motion.div className="flex items-start gap-4" whileHover={{ x: 8 }}>
                           <div className="p-3 rounded-lg bg-primary/10">
                             <item.icon className="h-5 w-5 text-primary" />
@@ -241,7 +304,7 @@ export default function Contact() {
                 </div>
 
                 {/* Availability */}
-                <RevealOnScroll>
+                <RevealOnScroll delay={0.3}>
                   <motion.div
                     whileHover={{ borderColor: "var(--color-primary)", scale: 1.02 }}
                     className="p-6 rounded-lg border border-border bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm"

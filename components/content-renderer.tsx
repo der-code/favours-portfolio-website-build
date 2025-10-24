@@ -2,7 +2,6 @@
 
 import React from "react"
 import { cn } from "@/lib/utils"
-import { MdxRenderer } from "./mdx-renderer"
 
 interface ContentRendererProps {
   content: string
@@ -12,10 +11,11 @@ interface ContentRendererProps {
 
 export const ContentRenderer = ({ content, source, className }: ContentRendererProps) => {
   if (source === "hashnode") {
+    // For Hashnode posts, use dangerouslySetInnerHTML directly
     return (
-      <MdxRenderer 
-        content={content}
+      <div
         className={cn("prose-headings:text-foreground prose-h1:text-4xl prose-h1:font-bold prose-h1:mb-6 prose-h2:text-3xl prose-h2:font-semibold prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-2xl prose-h3:font-semibold prose-h3:mt-6 prose-h3:mb-3 prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-code:bg-muted prose-code:text-foreground prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-pre:bg-muted prose-pre:text-foreground prose-pre:border prose-pre:border-border prose-pre:rounded-lg prose-pre:p-4 prose-pre:overflow-x-auto prose-blockquote:border-l-primary prose-blockquote:border-l-4 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-muted-foreground prose-ul:list-disc prose-ol:list-decimal prose-li:text-muted-foreground prose-table:border-collapse prose-th:border prose-th:border-border prose-th:bg-muted prose-th:p-2 prose-th:text-left prose-td:border prose-td:border-border prose-td:p-2", className)}
+        dangerouslySetInnerHTML={{ __html: content }}
       />
     )
   }
@@ -57,11 +57,11 @@ interface ExcerptRendererProps {
   className?: string
 }
 
-export const ExcerptRenderer = ({ 
-  excerpt, 
-  source, 
-  maxLength = 200, 
-  className 
+export const ExcerptRenderer = ({
+  excerpt,
+  source,
+  maxLength = 200,
+  className
 }: ExcerptRendererProps) => {
   if (source === "hashnode") {
     // For Hashnode posts, strip markdown formatting and truncate
@@ -76,7 +76,7 @@ export const ExcerptRenderer = ({
       .replace(/\n+/g, ' ') // Replace newlines with spaces
       .trim()
       .substring(0, maxLength) + '...'
-    
+
     return (
       <p className={cn("text-muted-foreground leading-relaxed", className)}>
         {cleanExcerpt}

@@ -169,7 +169,7 @@ export const AppleCardsCarousel = ({
                             key={index}
                             onClick={() => goToSlide(index)}
                             className={cn(
-                                "h-3 w-3 rounded-full transition-all duration-300",
+                                "h-3 w-3 rounded-full transition-all duration-300 cursor-pointer",
                                 index === currentIndex
                                     ? "bg-primary scale-125"
                                     : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
@@ -194,18 +194,6 @@ export const AppleCardsCarousel = ({
                 <p className="text-sm text-muted-foreground">
                     {currentIndex + 1} of {testimonials.length}
                 </p>
-            </div>
-
-            {/* Auto-play Toggle */}
-            <div className="flex justify-center mt-4">
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                    className="text-muted-foreground hover:text-foreground"
-                >
-                    {isAutoPlaying ? "Pause" : "Play"} Auto-play
-                </Button>
             </div>
         </div>
     )

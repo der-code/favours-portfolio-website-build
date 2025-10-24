@@ -2,45 +2,130 @@
 
 import React from "react"
 import { motion } from "framer-motion"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 
 export const Loader = ({ className }: { className?: string }) => {
     return (
         <div className={cn("flex items-center justify-center min-h-screen bg-gradient-to-br from-background via-background to-card", className)}>
-            <div className="relative">
-                {/* Outer rotating ring */}
+            <div className="relative flex flex-col items-center">
+                {/* Animated Logo */}
                 <motion.div
-                    className="w-16 h-16 border-4 border-primary/20 rounded-full"
-                    animate={{ rotate: 360 }}
+                    className="relative mb-8"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
                     transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "linear"
+                        duration: 0.8,
+                        ease: "easeOut",
+                        delay: 0.2
                     }}
-                />
+                >
+                    {/* Rotating background ring */}
+                    <motion.div
+                        className="absolute inset-0 w-24 h-24 border-2 border-primary/20 rounded-full"
+                        animate={{ rotate: 360 }}
+                        transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "linear"
+                        }}
+                    />
 
-                {/* Inner pulsing dot */}
-                <motion.div
-                    className="absolute top-1/2 left-1/2 w-4 h-4 bg-primary rounded-full transform -translate-x-1/2 -translate-y-1/2"
-                    animate={{
-                        scale: [1, 1.5, 1],
-                        opacity: [0.5, 1, 0.5]
-                    }}
-                    transition={{
-                        duration: 1.5,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                />
+                    {/* Pulsing background ring */}
+                    <motion.div
+                        className="absolute inset-2 w-20 h-20 border border-primary/10 rounded-full"
+                        animate={{
+                            scale: [1, 1.1, 1],
+                            opacity: [0.3, 0.6, 0.3]
+                        }}
+                        transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    />
 
-                {/* Loading text */}
+                    {/* Logo Image */}
+                    <motion.div
+                        className="relative z-10 flex items-center justify-center"
+                        animate={{
+                            y: [0, -5, 0],
+                            rotate: [0, 2, -2, 0]
+                        }}
+                        transition={{
+                            duration: 4,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <Image
+                            src="/logo.png"
+                            alt="Favour Max-Oti Logo"
+                            width={80}
+                            height={80}
+                            className="w-16 h-16 md:w-20 md:h-20 object-contain"
+                            priority
+                        />
+                    </motion.div>
+                </motion.div>
+
+                {/* Loading text with typewriter effect */}
                 <motion.div
-                    className="absolute top-20 left-1/2 transform -translate-x-1/2"
+                    className="text-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1 }}
+                >
+                    <motion.h2
+                        className="text-xl font-semibold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2"
+                        animate={{
+                            backgroundPosition: ["0%", "100%", "0%"]
+                        }}
+                        transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "linear"
+                        }}
+                        style={{
+                            backgroundSize: "200% 200%"
+                        }}
+                    >
+                        Favour Max-Oti
+                    </motion.h2>
+
+                    <motion.p
+                        className="text-sm text-muted-foreground font-medium"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1.5 }}
+                    >
+                        Web Experience Engineer
+                    </motion.p>
+                </motion.div>
+
+                {/* Animated dots */}
+                <motion.div
+                    className="flex space-x-2 mt-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5 }}
+                    transition={{ delay: 2 }}
                 >
-                    <p className="text-sm text-muted-foreground font-medium">Loading...</p>
+                    {[0, 1, 2].map((index) => (
+                        <motion.div
+                            key={index}
+                            className="w-2 h-2 bg-primary rounded-full"
+                            animate={{
+                                scale: [1, 1.5, 1],
+                                opacity: [0.5, 1, 0.5]
+                            }}
+                            transition={{
+                                duration: 1.5,
+                                repeat: Infinity,
+                                delay: index * 0.3,
+                                ease: "easeInOut"
+                            }}
+                        />
+                    ))}
                 </motion.div>
             </div>
         </div>

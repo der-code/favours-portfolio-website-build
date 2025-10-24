@@ -86,14 +86,7 @@ export const InfiniteMovingCards = ({
                 className
             )}
         >
-            <div className="relative flex w-full max-w-5xl flex-col items-center justify-center overflow-hidden rounded-lg border border-border bg-background/50 backdrop-blur-sm">
-                <div className="mb-4 text-center">
-                    <h2 className="text-3xl font-bold text-foreground">What People Say</h2>
-                    <p className="text-muted-foreground mt-2">
-                        Testimonials from clients and colleagues
-                    </p>
-                </div>
-
+            <div className="relative flex w-full max-w-7xl flex-col items-center justify-center overflow-hidden rounded-lg bg-background/50 backdrop-blur-sm">
                 <div className="relative flex w-full overflow-hidden">
                     <motion.div
                         className="flex gap-4"
@@ -109,7 +102,7 @@ export const InfiniteMovingCards = ({
                             },
                         }}
                         style={{
-                            width: `${testimonials.length * 2}00px`,
+                            width: `${testimonials.length * 3}rem`,
                         }}
                     >
                         {/* First set of testimonials */}

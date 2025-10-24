@@ -5,45 +5,9 @@ import { AppleCardsCarousel } from "@/components/aceternity/apple-cards-carousel
 import { motion, Variants } from "framer-motion"
 import { Loader } from "@/components/aceternity/loader"
 import { useState, useEffect } from "react"
+import { testimonials } from "@/lib/data"
 
-const testimonials = [
-    {
-        quote: "Favour delivered an exceptional web application that exceeded our expectations. His attention to detail and technical expertise made the entire development process smooth and efficient.",
-        name: "Sarah Johnson",
-        title: "Product Manager",
-        company: "TechCorp"
-    },
-    {
-        quote: "Working with Favour was a game-changer for our project. His React and NestJS skills are outstanding, and he consistently delivered high-quality solutions on time.",
-        name: "Michael Chen",
-        title: "CTO",
-        company: "StartupXYZ"
-    },
-    {
-        quote: "Favour's ability to create beautiful, performant user interfaces is remarkable. He transformed our complex requirements into an intuitive and delightful user experience.",
-        name: "Emily Rodriguez",
-        title: "UX Director",
-        company: "DesignStudio"
-    },
-    {
-        quote: "The backend architecture Favour designed for our application is robust and scalable. His expertise in NestJS and database optimization saved us months of development time.",
-        name: "David Kim",
-        title: "Lead Developer",
-        company: "Enterprise Solutions"
-    },
-    {
-        quote: "Favour's motion design skills brought our application to life. The animations and transitions he created significantly improved our user engagement metrics.",
-        name: "Lisa Thompson",
-        title: "Marketing Director",
-        company: "Digital Agency"
-    },
-    {
-        quote: "Professional, reliable, and incredibly talented. Favour consistently delivered beyond our requirements and was always available to provide technical guidance.",
-        name: "Robert Wilson",
-        title: "Founder",
-        company: "Innovation Labs"
-    }
-]
+
 
 export default function Testimonials() {
     const [loading, setLoading] = useState(true)

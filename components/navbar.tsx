@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import Image from "next/image"
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -40,10 +41,18 @@ export function Navbar() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              FMO
-            </div>
+          <Link href="/" className="flex items-center gap-2 cursor-pointer">
+            <Image
+              src="/logo.svg"
+              alt="Favour Max-Oti Logo"
+              width={40}
+              height={40}
+              className="h-8 w-8 md:h-10 md:w-10"
+              priority
+            />
+            <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent hidden sm:block">
+              Favour Max-Oti
+            </span>
           </Link>
 
           {/* Nav Items */}
@@ -55,7 +64,7 @@ export function Navbar() {
                   key={item.href}
                   href={item.href}
                   onMouseEnter={() => handleMouseEnter(item.href)}
-                  className="relative text-sm font-medium transition-colors hover:text-primary"
+                  className="relative text-sm font-medium transition-colors hover:text-primary cursor-pointer"
                 >
                   {item.label}
                   {isActive && (

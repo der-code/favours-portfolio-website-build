@@ -8,11 +8,9 @@ import { Button } from "@/components/ui/button"
 import { Spotlight } from "@/components/aceternity/spotlight"
 import { AnimatedGradientText } from "@/components/aceternity/animated-gradient-text"
 import { TextReveal } from "@/components/aceternity/text-reveal"
-import { InfiniteMovingCards } from "@/components/aceternity/infinite-moving-cards"
 import { HorizontalScrollSkills } from "@/components/aceternity/horizontal-scroll-skills"
 import { useGSAPScrollAnimation } from "@/components/gsap-animations"
 import { useRef } from "react"
-import { testimonials } from "@/lib/data"
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -116,34 +114,6 @@ export default function Home() {
               <HorizontalScrollSkills skills={skills} />
             </motion.div>
           </motion.div>
-
-          {/* Testimonials Section - Outside motion container */}
-          <div className="space-y-8 mt-20">
-            <div className="text-center space-y-4">
-              <h2 className="text-3xl font-bold">What Clients Say</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Don't just take my word for it. Here's what clients and colleagues say about working with me.
-              </p>
-            </div>
-
-
-
-            <InfiniteMovingCards
-              testimonials={testimonials}
-              direction="left"
-              speed="slow"
-              pauseOnHover={true}
-              className="py-8"
-            />
-            <div className="text-center mt-8">
-              <Link href="/testimonials">
-                <Button variant="outline" className="group">
-                  View All Testimonials
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-            </div>
-          </div>
         </div>
       </main>
     </>
