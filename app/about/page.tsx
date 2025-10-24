@@ -1,6 +1,7 @@
 "use client"
 
 import { Navbar } from "@/components/navbar"
+import { MobileNav } from "@/components/mobile-nav"
 import { motion, Variants } from "framer-motion"
 import { Code2, Zap, Palette } from "lucide-react"
 import { CardHoverEffect } from "@/components/aceternity/card-hover-effect"
@@ -115,6 +116,7 @@ export default function About() {
   return (
     <>
       <Navbar />
+      <MobileNav />
       <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-16">

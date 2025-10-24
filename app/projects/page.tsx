@@ -1,6 +1,7 @@
 "use client"
 
 import { Navbar } from "@/components/navbar"
+import { MobileNav } from "@/components/mobile-nav"
 import { motion, Variants } from "framer-motion"
 import { ExternalLink, Github } from "lucide-react"
 import Link from "next/link"
@@ -27,16 +28,16 @@ export default function Projects() {
         setError(null)
 
         const response = await fetch('/api/projects')
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
-        
+
         const text = await response.text()
         if (!text) {
           throw new Error('Empty response from server')
         }
-        
+
         const data = JSON.parse(text)
 
         if (data.success) {
@@ -68,6 +69,7 @@ export default function Projects() {
     return (
       <>
         <Navbar />
+        <MobileNav />
         <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20">
             <div className="space-y-12">
@@ -101,6 +103,7 @@ export default function Projects() {
     return (
       <>
         <Navbar />
+        <MobileNav />
         <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20">
             <div className="text-center space-y-4">

@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import Link from "next/link"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
@@ -26,16 +27,16 @@ export const FloatingDock: React.FC<FloatingDockProps> = ({ items, className }) 
       )}
     >
       {items.map((item, idx) => (
-        <motion.a
-          key={idx}
-          href={item.href}
-          title={item.title}
-          className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors cursor-pointer"
-          whileHover={{ scale: 1.2, y: -10 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {item.icon}
-        </motion.a>
+        <Link key={idx} href={item.href}>
+          <motion.div
+            title={item.title}
+            className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors cursor-pointer"
+            whileHover={{ scale: 1.2, y: -10 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {item.icon}
+          </motion.div>
+        </Link>
       ))}
     </motion.div>
   )

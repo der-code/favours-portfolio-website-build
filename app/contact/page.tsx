@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { Navbar } from "@/components/navbar"
+import { MobileNav } from "@/components/mobile-nav"
 import { motion, Variants } from "framer-motion"
 import { Mail, Linkedin, Github, Twitter, MapPin, Phone } from "lucide-react"
 import Link from "next/link"
@@ -117,6 +118,7 @@ export default function Contact() {
   return (
     <>
       <Navbar />
+      <MobileNav />
       <main className="min-h-screen bg-gradient-to-br from-background via-background to-card pb-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20">
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-12">
