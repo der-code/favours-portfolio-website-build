@@ -1,6 +1,7 @@
 "use client"
 
 import { Navbar } from "@/components/navbar"
+import { MobileNav } from "@/components/mobile-nav"
 import { motion, Variants } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight, Calendar, Clock, User } from "lucide-react"
@@ -81,6 +82,7 @@ export default function Blog() {
     return (
       <>
         <Navbar />
+        <MobileNav />
         <main className="min-h-screen bg-gradient-to-br from-background via-background to-card flex items-center justify-center">
           <Loader />
         </main>
@@ -92,6 +94,7 @@ export default function Blog() {
     return (
       <>
         <Navbar />
+        <MobileNav />
         <main className="min-h-screen bg-gradient-to-br from-background via-background to-card flex items-center justify-center">
           <div className="text-center space-y-4">
             <h1 className="text-4xl font-bold">Error Loading Posts</h1>
@@ -111,6 +114,7 @@ export default function Blog() {
   return (
     <>
       <Navbar />
+      <MobileNav />
       <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-12">

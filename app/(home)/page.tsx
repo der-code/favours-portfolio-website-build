@@ -1,6 +1,7 @@
 "use client"
 
 import { Navbar } from "@/components/navbar"
+import { MobileNav } from "@/components/mobile-nav"
 import { motion, Variants } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
@@ -58,6 +59,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
+      <MobileNav />
       <main className="min-h-screen bg-gradient-to-br from-background via-background to-card relative overflow-hidden">
         <Spotlight className="absolute top-0 left-0 opacity-30" fill="var(--primary)" />
         <Spotlight className="absolute bottom-0 right-0 opacity-20" fill="var(--secondary)" />

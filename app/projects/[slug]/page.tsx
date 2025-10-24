@@ -1,6 +1,7 @@
 "use client"
 
 import { Navbar } from "@/components/navbar"
+import { MobileNav } from "@/components/mobile-nav"
 import { motion } from "framer-motion"
 import { ExternalLink, Github, Calendar, Clock, Tag } from "lucide-react"
 import Link from "next/link"
@@ -53,6 +54,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         return (
             <>
                 <Navbar />
+                <MobileNav />
                 <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
                     <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">
                         <div className="space-y-8">
@@ -78,6 +80,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         return (
             <>
                 <Navbar />
+                <MobileNav />
                 <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
                     <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">
                         <div className="text-center space-y-4">
@@ -98,6 +101,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     return (
         <>
             <Navbar />
+            <MobileNav />
             <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
                 <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">
                     <motion.div

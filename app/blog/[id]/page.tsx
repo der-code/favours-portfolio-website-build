@@ -1,6 +1,7 @@
 "use client"
 
 import { Navbar } from "@/components/navbar"
+import { MobileNav } from "@/components/mobile-nav"
 import Link from "next/link"
 import { ArrowLeft, Calendar, Clock, User, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -61,6 +62,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
     return (
       <>
         <Navbar />
+        <MobileNav />
         <main className="min-h-screen bg-gradient-to-br from-background via-background to-card flex items-center justify-center">
           <Loader />
         </main>
@@ -72,6 +74,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
     return (
       <>
         <Navbar />
+        <MobileNav />
         <main className="min-h-screen bg-gradient-to-br from-background via-background to-card flex items-center justify-center">
           <div className="text-center space-y-4">
             <h1 className="text-4xl font-bold">Post Not Found</h1>
@@ -93,6 +96,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
   return (
     <>
       <Navbar />
+      <MobileNav />
       <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-20">
           <div className="space-y-8">

@@ -1,6 +1,7 @@
 "use client"
 
 import { Navbar } from "@/components/navbar"
+import { MobileNav } from "@/components/mobile-nav"
 import { AppleCardsCarousel } from "@/components/aceternity/apple-cards-carousel"
 import { motion, Variants } from "framer-motion"
 import { Loader } from "@/components/aceternity/loader"
@@ -43,6 +44,7 @@ export default function Testimonials() {
     return (
         <>
             <Navbar />
+            <MobileNav />
             {loading ? (
                 <Loader />
             ) : (

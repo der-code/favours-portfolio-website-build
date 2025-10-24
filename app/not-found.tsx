@@ -1,6 +1,7 @@
 "use client"
 
 import { Navbar } from "@/components/navbar"
+import { MobileNav } from "@/components/mobile-nav"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -30,6 +31,7 @@ export default function NotFound() {
     return (
         <>
             <Navbar />
+            <MobileNav />
             <main className="min-h-screen bg-gradient-to-br from-background via-background to-card flex items-center justify-center">
                 <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
                     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-8">
