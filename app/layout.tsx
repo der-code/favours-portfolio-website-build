@@ -43,8 +43,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://favour-portfolio.com",
-    siteName: "Favour Max-Oti Portfolio",
+    url: "https://max-otifavour.com.ng",
+    siteName: "Favour Max-Oti",
     title: "Favour Max-Oti | Web Experience Engineer",
     description:
       "Web Experience Engineer specializing in React, NestJS, and UX motion design. Crafting immersive digital experiences that blend thoughtful design with robust engineering.",
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     yahoo: "your-yahoo-verification-code",
   },
   alternates: {
-    canonical: "https://favour-portfolio.com",
+    canonical: "https://max-otifavour.com.ng",
   },
   category: "technology",
 }

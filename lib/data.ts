@@ -1,18 +1,18 @@
 export const testimonials = [
     {
-        quote: "I truly enjoyed working with Favour, an exceptional fullstack developer who consistently delivered high-quality results. His ability to handle both frontend and backend development with precision and creativity made every collaboration seamless and productive.",
+        quote: "I truly enjoyed working with Max, an exceptional fullstack developer who consistently delivered high-quality results. His ability to handle both frontend and backend development with precision and creativity made every collaboration seamless and productive.",
         name: "Samuel Ali",
         title: "Fullstack Developer",
         company: "Bivisoft Ltd."
     },
     {
-        quote: "I had a fun time working with Favour, as I like to call him. He is super resourceful; knowing a lot about both the Frontend and the backend. Not only is he technically good, but he brings good vibes to the team always encouraging others and seeking for ways to improve the work.",
+        quote: "I had a fun time working with Max, as I like to call him. He is super resourceful; knowing a lot about both the Frontend and the backend. Not only is he technically good, but he brings good vibes to the team always encouraging others and seeking for ways to improve the work.",
         name: "Edozie Onyeanusi",
         title: "Frontend Developer",
         company: "Tenece Professional Services"
     },
     {
-        quote: "Working with Favour as a software developer has been an awesome experience. As a designer, I truly appreciate his attention to detail, clear communication, and deep understanding of design concepts. He always finds creative ways to integrate my design features seamlessly into the product.",
+        quote: "Working with Max as a software developer has been an awesome experience. As a designer, I truly appreciate his attention to detail, clear communication, and deep understanding of design concepts. He always finds creative ways to integrate my design features seamlessly into the product.",
         name: "King David Nwaeze",
         title: "Product Designer",
         company: "Niuxverse Solutions"
@@ -30,19 +30,19 @@ export const testimonials = [
         company: "VPay"
     },
     {
-        quote: "Working with Favour has been a thrill. His eye for even the smallest of details, efficient delivery and professional relationship makes for a seamless work experience. I 100% recommend him.",
+        quote: "Working with Max has been a thrill. His eye for even the smallest of details, efficient delivery and professional relationship makes for a seamless work experience. I 100% recommend him.",
         name: "Ifechukwuamaka Edet",
         title: "Freelance Frontend Developer",
         company: "Freelance"
     },
     {
-        quote: "I've worked with Favour and he hasn't failed to demonstrate his expertise in building web applications. His contribution has greatly helped move forward our organization, he's a solid hand that every company needs .",
+        quote: "I've worked with Max and he hasn't failed to demonstrate his expertise in building web applications. His contribution has greatly helped move forward our organization, he's a solid hand that every company needs .",
         name: "Christiana Bini-Okoh",
         title: "UIUX Design Tutor",
         company: "Attueyi Coding Academy"
     },
     {
-        quote: "Favour is my all time favorite team member for obvious reasons. He is very committed and has consistently delivered value. ",
+        quote: "Max is my all time favorite team member for obvious reasons. He is very committed and has consistently delivered value. ",
         name: "Chinonye Abonyi",
         title: "Business Development Manager",
         company: "Jocane Nigeria Ltd"
