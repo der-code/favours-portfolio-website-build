@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import { Spotlight } from "@/components/aceternity/spotlight"
 import { AnimatedGradientText } from "@/components/aceternity/animated-gradient-text"
 import { TextReveal } from "@/components/aceternity/text-reveal"
-import { TestimonialsGrid } from "@/components/aceternity/testimonial-card"
 import { HorizontalScrollSkills } from "@/components/aceternity/horizontal-scroll-skills"
 import { useGSAPScrollAnimation } from "@/components/gsap-animations"
 import { useRef } from "react"
@@ -35,26 +34,6 @@ export default function Home() {
     },
   ]
 
-  const testimonials = [
-    {
-      quote: "Favour delivered an exceptional web application that exceeded our expectations. His attention to detail and technical expertise made the entire development process smooth and efficient.",
-      name: "Sarah Johnson",
-      title: "Product Manager",
-      company: "TechCorp"
-    },
-    {
-      quote: "Working with Favour was a game-changer for our project. His React and NestJS skills are outstanding, and he consistently delivered high-quality solutions on time.",
-      name: "Michael Chen",
-      title: "CTO",
-      company: "StartupXYZ"
-    },
-    {
-      quote: "Favour's ability to create beautiful, performant user interfaces is remarkable. He transformed our complex requirements into an intuitive and delightful user experience.",
-      name: "Emily Rodriguez",
-      title: "UX Director",
-      company: "DesignStudio"
-    }
-  ]
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -135,28 +114,6 @@ export default function Home() {
               <HorizontalScrollSkills skills={skills} />
             </motion.div>
           </motion.div>
-
-          {/* Testimonials Section - Outside motion container */}
-          <div className="space-y-8 mt-20">
-            <div className="text-center space-y-4">
-              <h2 className="text-3xl font-bold">What Clients Say</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Don't just take my word for it. Here's what clients and colleagues say about working with me.
-              </p>
-            </div>
-
-
-
-            <TestimonialsGrid testimonials={testimonials} />
-            <div className="text-center">
-              <Link href="/testimonials">
-                <Button variant="outline" className="group">
-                  View All Testimonials
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-            </div>
-          </div>
         </div>
       </main>
     </>

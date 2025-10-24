@@ -165,6 +165,34 @@ export default function About() {
                   className="w-48 h-48 md:w-64 md:h-64"
                 />
               </div>
+
+              {/* Personal Interests */}
+              <div className="max-w-3xl mx-auto">
+                <div className="bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-8 space-y-6">
+                  <div className="text-center space-y-4">
+                    <h3 className="text-xl font-semibold text-foreground">Life Beyond Development</h3>
+                    <div className="w-16 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+                  </div>
+
+                  <div className="space-y-4 text-muted-foreground leading-relaxed">
+                    <p className="text-lg">
+                      I sing, play bass and occasionally drums in church. Music has always been a way for me to express creativity and connect with others on a deeper level.
+                    </p>
+
+                    <p className="text-lg">
+                      I love reading manga and watching anime. These stories often inspire my approach to problem-solving and help me think outside the box when building applications.
+                    </p>
+
+                    <p className="text-lg">
+                      I also enjoy comfortable silences and equally enjoy deep and meaningful conversations. I believe that the best ideas often come from thoughtful reflection and genuine human connection.
+                    </p>
+
+                    <p className="text-lg">
+                      <span className="text-primary font-semibold">Most importantly, I love building things and coming up with better ways to handle tasks.</span> This passion drives everything I do, whether it's crafting elegant code or finding innovative solutions to everyday challenges.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
 
             {/* Skills Grid */}

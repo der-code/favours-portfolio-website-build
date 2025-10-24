@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import 'highlight.js/styles/github-dark-dimmed.min.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -175,4 +176,92 @@
   background-color: hsl(0 0% 9%);
   color: hsl(0 0% 95%);
   border-left: 4px solid hsl(var(--primary));
+}
+
+/* Enhanced syntax highlighting for MDX */
+.hljs {
+  background: hsl(var(--muted)) !important;
+  color: hsl(var(--foreground)) !important;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: hsl(var(--muted-foreground));
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: hsl(var(--accent));
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: hsl(var(--secondary));
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: hsl(var(--primary));
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: hsl(var(--accent));
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: hsl(var(--secondary));
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: hsl(var(--accent));
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: hsl(var(--primary));
+}
+
+.hljs-meta {
+  color: hsl(var(--muted-foreground));
+}
+
+.hljs-deletion {
+  background: hsl(var(--destructive) / 0.1);
+}
+
+.hljs-addition {
+  background: hsl(var(--primary) / 0.1);
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
 }
