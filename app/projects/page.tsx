@@ -142,6 +142,7 @@ export default function Projects() {
   return (
     <>
       <Navbar />
+      <MobileNav />
       <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20">
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-12">
