@@ -12,6 +12,7 @@ import { TextReveal } from "@/components/aceternity/text-reveal"
 import { HorizontalScrollSkills } from "@/components/aceternity/horizontal-scroll-skills"
 import { useGSAPScrollAnimation } from "@/components/gsap-animations"
 import { useRef } from "react"
+import { FlipWords } from "@/components/ui/flip-words"
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -23,16 +24,20 @@ export default function Home() {
   const skills = [
     {
       title: "Frontend",
-      skills: ["React", "TypeScript", "Tailwind", "Framer Motion", "Next.js"],
+      skills: ["React", "TypeScript", "Tailwind", "Framer Motion", "Next.js", "Shadcn/UI", "Aceternity UI", "Lucide React"],
     },
     {
       title: "Backend",
-      skills: ["NestJS", "PostgreSQL", "MongoDB", "MySQL", "Laravel", "Node.js"],
+      skills: ["NestJS", "PostgreSQL", "MongoDB", "MySQL", "Laravel", "Node.js", "Redis", "Microservices"],
     },
     {
       title: "DevOps",
-      skills: ["Docker", "CI/CD", "Traefik", "Cloudflare"],
+      skills: ["Docker", "CI/CD", "Traefik", "Cloudflare", "AWS", "Circle CI", "Vercel", "Netlify"],
     },
+    {
+      "title": "Mobile",
+      "skills": ["React Native", "Expo",]
+    }
   ]
 
 
@@ -56,6 +61,8 @@ export default function Home() {
     },
   }
 
+  const titles = ["Web Experience Engineer", "Storyteller", "Problem Solver", "Tech Enthusiast"];
+
   return (
     <>
       <Navbar />
@@ -70,18 +77,15 @@ export default function Home() {
             <motion.div variants={itemVariants as Variants} className="space-y-4">
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
                 <span className="block">Hey, I'm</span>
-                <AnimatedGradientText className="block text-5xl md:text-7xl">Favour Max-Oti</AnimatedGradientText>
+                <AnimatedGradientText className="block text-5xl md:text-7xl">Favour Max-Oti.</AnimatedGradientText>
               </h1>
-              <TextReveal
-                text="Web Experience Engineer crafting immersive digital experiences"
-                className="text-xl md:text-2xl text-muted-foreground max-w-2xl"
-              />
+              <span className="block text-2xl md:text-3xl font-bold">I'm a</span>
+              <FlipWords words={titles} duration={3000} className="text-5xl md:text-7xl text-muted-foreground max-w-2xl" />
             </motion.div>
 
             {/* Description */}
             <motion.p variants={itemVariants as Variants} className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
-              I specialize in building beautiful, performant web applications using React, NestJS, and cutting-edge UX
-              motion design. Engineering digital experiences that feel natural and perform beautifully.
+              I love building, and exploring new technologies to create beautiful, performant web applications. I'm a quick learner and I'm always looking for new challenges and opportunities to grow.
             </motion.p>
 
             {/* CTA Buttons */}
